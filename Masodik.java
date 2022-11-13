@@ -1,15 +1,23 @@
 package masodik;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.IntSummaryStatistics; //??
 import java.util.List; //??
 import java.util.Random;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.stream.Collectors; //??
 
 interface Filter{
     boolean function(int n);
+}
+
+interface Comperegy23{
+    boolean function(int x, int y);
 }
 
 class Gepjarmu{
@@ -29,6 +37,49 @@ class Gepjarmu{
     }
     
 }
+
+class Osztalygy31{
+    String neptunkod;
+    String nev;
+    String varos;
+    Integer eletkor;
+    int[] osztályzat = new int[4];
+    
+    public Osztalygy31(String neptunkod, String nev, String varos, Integer eletkor, int[] osztályzat){
+        this.neptunkod = neptunkod;
+        this.nev = nev;
+        this.varos = varos;
+        this.eletkor = eletkor;
+        this.osztályzat = osztályzat;
+    }
+    
+    @Override
+    public String toString() {
+        return neptunkod + ", " + nev + ", " + varos + ", " + eletkor + ", " + "Matematika: " + osztályzat[0] + ", " + "Történelem: " + osztályzat[1] + ", " + "Irodalom: " + osztályzat[2] + ", " + "Hittan: " + osztályzat[3];
+    }
+}
+
+class kurzusHallgatoigy32{
+    String neptunkod;
+    String nev;
+    String varos;
+    Integer eletkor;
+    int[] osztályzat = new int[4];
+    
+    public kurzusHallgatoigy32(String neptunkod, String nev, String varos, Integer eletkor, int[] osztályzat){
+        this.neptunkod = neptunkod;
+        this.nev = nev;
+        this.varos = varos;
+        this.eletkor = eletkor;
+        this.osztályzat = osztályzat;
+    }
+    
+    @Override
+    public String toString() {
+        return neptunkod + ", " + nev + ", " + varos + ", " + eletkor + ", " + "Matematika: " + osztályzat[0] + ", " + "Történelem: " + osztályzat[1] + ", " + "Irodalom: " + osztályzat[2] + ", " + "Hittan: " + osztályzat[3];
+    }
+}
+
 
 
 
@@ -120,7 +171,7 @@ public class Masodik {
         
         /*
         5. Kérj be a felhasználótól neveket egy tömblistába, egészen addig, amíg a felhasználó azt nem adja meg, hogy „vége”. 
-            a) Egy másik tömblistába egy metódussal válogasd ki a B-vel kezdődő nevű neveket. !!
+            a) Egy másik tömblistába egy metódussal válogasd ki a B-vel kezdődő nevű neveket.
             b) Számold meg, hogy hány a –ra végződő nevű név van. 
             c) Döntsd el, hogy van –e a tömblistában Nagy István nevű név. Írd meg a programot az eldöntés tételével és írd meg úgy, hogy használod a tömblisták contains metódusát.
         */
@@ -139,6 +190,13 @@ public class Masodik {
             }
         }
         
+        //a
+        ArrayList<String> bnevekgy15 = new ArrayList<>(bNevekgy15(nevekgy15));
+        for (int i = 0; i < bnevekgy15.size(); i++) {
+            System.out.println(bnevekgy15.get(i));
+        }
+        
+        //b
         int szamgy15 = 0;
         for (int i = 0; i < nevekgy15.size(); i++) {
             if (nevekgy15.get(i).endsWith("ra")) {
@@ -146,7 +204,9 @@ public class Masodik {
             }
         }
         
-        if (nevekgy15.contains("NagyIstvan")) {
+        //c
+        //!!
+        if (nevekgy15.contains("NagyIstván")) {
             System.out.println("A tömb tartalmaz Nagy István-t");
         } else {
             System.out.println("A tömb nem tartalmaz Nagy István-t");
@@ -245,11 +305,8 @@ public class Masodik {
                 .mapToInt((x) -> x)
                 .average());
         
-        //f !!
-        //kifejezésnek megfelelő elem melyik indexen helyezkedik el
-        ArrayList<Integer> megfelelogy21 = new ArrayList<>(szamokgy21.stream().filter(n -> n>50).collect(Collectors.toList()));
-        System.out.println(megfelelogy21);
-        megfelelogy21.forEach(n -> szamokgy21.contains(n));
+        //f
+        System.out.println(helymegadasgy21(szamokgy21, n -> n>50));
         
         /*
         2) A fenti feladatokat próbáld megcsinálni neveket tartalmazó listákra.
@@ -282,12 +339,13 @@ public class Masodik {
         nevekgy22.stream()
                 .filter(n -> n.contains("i"))
                 .forEach(n -> szerepelgy22.add(n));
-        System.out.println(szerepelgy21);
+        System.out.println(szerepelgy22);
         
         //e
         //Összeg meg átlag nem lesz Stringeknél
         
-        //f !!
+        //f !!Nem lambda
+        System.out.println(helymegadasgy22(nevekgy22, "Peti"));
         
         /*
         3) Készítsd el a maximum vagy minimum értéket tömblistából kiválasztó metódust lambda függvénnyel. Csak egy metódus legyen, ami a lambda kifejezésnek megfelelően vagy a maximum, vagy a minimum értéket választja ki.
@@ -297,7 +355,8 @@ public class Masodik {
         for (int i = 0; i < 10; i++) {
             szamokgy23.add(rnd.nextInt(100)+1);
         }
-        System.out.println(maxpermingy23(szamokgy23, (n) -> n>0)); //!!
+        System.out.println(maxpermingy23(szamok2, (x, y) -> x>y));
+        System.out.println(maxpermingy23(szamok2, (x, y) -> x<y));
         
         /*
         4) Készíts egy Integer értékeket tárolni képes List típusú listát. Az értékeket azonnal inicializáld, írj bele 5 értéket.
@@ -384,13 +443,126 @@ public class Masodik {
         System.out.println(gj32);
         System.out.println(gj33);
         
-        ArrayList<Gepjarmu> gepjarmuvek = new ArrayList<>();
-        gepjarmuvek.add(gj31);
-        gepjarmuvek.add(gj32);
-        gepjarmuvek.add(gj33);
+        ArrayList<Gepjarmu> gepjarmuvek3 = new ArrayList<>();
+        gepjarmuvek3.add(gj31);
+        gepjarmuvek3.add(gj32);
+        gepjarmuvek3.add(gj33);
         
-        System.out.println(gepjarmuvek);
-        //5. perc !!
+        /*
+        System.out.println(gepjarmuvek3);
+        System.out.println(gepjarmuvek3.get(0));
+        System.out.println(gepjarmuvek3.get(1).rendszam);
+        System.out.println(gepjarmuvek3.get(0).gyartmany.charAt(0));
+        */
+        
+        gepjarmuvek3.stream().filter(gj -> gj.rendszam.contains("8")).forEach(System.out::println);
+        
+        
+        //Gyakorlás 3
+        
+        /*
+        1.  Készíts Tanulo osztályt, amelynek adattagjai: neptunkód, név, város, életkor!
+                Készíts egy tanuló típusú objektumot az osztályból!
+                Add meg a tanuló adatait!
+                Írd ki a tanuló adatait!
+                Egészítsd ki a Tanuló osztályt egy 4 elemű tömbbel, ami a tanuló osztályzatait tartalmazza osztalyzatok néven. Add meg a tanuló osztályzatait.
+        */
+        
+        int[] osztalyzatgy31a = {5, 5, 5, 5};
+        int[] osztalyzatgy31b = {5, 5, 5, 5};
+        int[] osztalyzatgy31c = {5, 5, 5, 5};
+        int[] osztalyzatgy31d = {5, 5, 5, 5};
+        
+        Osztalygy31 tanulo1 = new Osztalygy31("ASD123", "Nagy Barna", "Szeged", 18, osztalyzatgy31a);
+        Osztalygy31 tanulo2 = new Osztalygy31("YXCQWE", "Fütty Imre", "Budapest", 19, osztalyzatgy31b);
+        Osztalygy31 tanulo3 = new Osztalygy31("FGH456", "Kis Tamás", "Budapest", 20, osztalyzatgy31c);
+        Osztalygy31 tanulo4 = new Osztalygy31("RTZVBN", "Pál Lajos", "Szikszo", 21, osztalyzatgy31d);
+        
+        ArrayList<Osztalygy31> OsztalyTagjaigy31 = new ArrayList<>();
+        OsztalyTagjaigy31.add(tanulo1);
+        OsztalyTagjaigy31.add(tanulo2);
+        OsztalyTagjaigy31.add(tanulo3);
+        OsztalyTagjaigy31.add(tanulo4);
+        
+        System.out.println(OsztalyTagjaigy31);
+        
+        
+        /*
+        2.  Készíts egy 5 elemű tömblistát kurzusHallgatoi néven, amelynek elemei az előző feladatban definiált Tanulo típusú egyedeket tartalmazhat!
+                Egy eljárásban kérd be a billentyűzetről a tanulók adatait a tömblistába!
+                Egy eljárásban írd ki a tanulók adatait! Az osztálynak készítsd el a toString metódusát és azt használd a kiírásra.
+                A tanulók adatait írd ki a tömblista foreach metódusával is.
+                Készíts metódust, ami a tanulók tömblistájában megkeresi az adott tanulót a neptunkódja alapján. A függvény a neptunkódot paraméterül kapja.
+                A tömblista stream objektumával is oldd meg az előző feladatot. A megoldáshoz használhatod a stream filter objektumát, aminek paraméteréül lambda kifejezést adsz a tanuló neptunkódjára vonatkozóan, pl. (t -> t.neptunKod.equalsIgnoreCase("GHH8JE")), majd a findFirst() metódust használhatod, ami visszaadja az Optional típusú objektumot, ami után a get() függvénnyel a tanuló objektumot kapod vissza.
+                Készíts függvényt, ami kiszámítja egy tanuló átlagát. Hogy melyik tanuló átlagát számítsa ki, a tanuló neptunkódjával add meg. Használd az előző feladatban elkészített kereső függvényt a tanuló azonosítására. A main()-ben hívd meg a függvényt és írd ki az átlagot!
+                Készíts függvényt, ami visszaadja a legrosszabb tanuló nevét! Legrosszabb tanuló az, akinek a legalacsonyabb az átlaga.
+                Készíts függvényt, ami visszaadja a legjobb tanuló objektumát (A legjobb tanuló összes adatát tartalmazó objektumot). A legjobb tanuló az, akinek az átlaga a legmagasabb.
+            A következő feladatokat a lista stream() objektumával végezd el!
+                A filter használatával szűrd ki a B-vel kezdődő városban lakókat, majd listázd őket a foreach metódussal. A foreachben metódus referenciát használj.
+                A filter és count függvények használatával add meg, hogy hányan laknak Budapesten.
+                Határozd meg a tanulók átlagos életkorát. A megoldáshoz használd a stream mapToInt() metódusát!
+                Határozd meg a legidősebb, legfiatalabb életkorokat. (mapToInt, summaryStatistics együttes használata)
+                Add meg a legidősebb, legfiatalabb tanuló objektumát. Használd a stream max, min függvényét comparator használatával. pl: (stream().min((t, t1) -> Integer.compare(t.eletkor, t1.eletkor)).get())
+                Határozd meg a Budapesten tanulók átlagos életkorát! (filter, mapToInt együttes használata)
+                Egy új listába szűrd ki a budapesti hallgatókat, majd listázd őket.
+                Egy új listában add meg a városokat. (Ismétlődés megengedett). Módosítsd az utasítást úgy, hogy a városokat névsor szerint rendezetten adja. (sorted metódus)
+                Módosítsd az előző feladatban létrehozott utasítást úgy, hogy a lista csak a különböző városokat adja. Használd a map után a distinct() utasítást ami kiszűri az egyezőségeket.
+                Az előző utasítás módosításával határozd meg, hogy hány különböző városban laknak a hallgatók.
+        */
+        
+        ArrayList<kurzusHallgatoigy32> kurzusgy32 = new ArrayList<>(); //!!
+        /*
+        for (int i = 0; i < 5; i++) {
+            System.out.println("Add meg a tanuló neptunkódját");
+            String neptunkodgy32 = scan.next();
+            System.out.println("Add meg a tanuló nevét");
+            String nevgy32 = scan.next();
+            System.out.println("Add meg a tanuló városát");
+            String varosgy32 = scan.next();
+            System.out.println("Add meg a tanuló életkorát");
+            int eletkorgy32 = scan.nextInt();
+            System.out.println("Add meg a tanuló matek jegyét");
+            int matekjegygy32 = scan.nextInt();
+            System.out.println("Add meg a tanuló történelem jegyét");
+            int törijegygy32= scan.nextInt();
+            System.out.println("Add meg a tanuló irodalom jegyét");
+            int irodalomjegygy32= scan.nextInt();
+            System.out.println("Add meg a tanuló hittan jegyét");
+            int hittanjegygy32= scan.nextInt();
+            
+            
+            
+            
+        }
+        */
+        
+        
+        
+        
+        
+        //3. feladat!!
+        
+        
+        
+        
+        
+        
+        
+        //Negyedik óra: Fájlkezelés, kivételkezelés
+        
+        //CSV fájl adatainak beolvasása tömblistába
+        File f = new File ("C:\\Users\\Peti\\OneDrive\\Asztali gép\\Iskola\\Prog 2\\Progr41.txt");
+        System.out.println(f.exists());
+        System.out.println(f.length());
+        System.out.println(f.canRead());
+        fileRead4(gepjarmuvek3, f);
+        gepjarmuvek3.forEach(System.out::println);
+        System.out.println("");
+        gepjarmuvek3.stream().filter(gj -> gj.gyartasiEv > 2000).forEach(System.out::println);
+        
+        
+        
+        
         
         
     }
@@ -417,6 +589,12 @@ public class Masodik {
         return paratlanok;
     }
     
+    static ArrayList<String> bNevekgy15(ArrayList<String> lista){
+        ArrayList<String> nevek = new ArrayList<>();
+        lista.stream().filter(n -> n.startsWith("B")).forEach(n -> nevek.add(n));
+        return nevek;
+    }
+    
     static ArrayList<Integer> kivalogat2(ArrayList<Integer> lista, Filter filt){ 
         ArrayList<Integer> szamok = new ArrayList<>();
         for (int i = 0; i < lista.size(); i++) {
@@ -428,15 +606,63 @@ public class Masodik {
         return szamok;
     }
     
-    static double maxpermingy23 (ArrayList<Integer> lista, Filter filt){
-        int a = lista.get(0);
-        for (int i = 1; i < lista.size(); i++) {
-            if (lista.get(i) > a) {
-                a=lista.get(i);
+    static int helymegadasgy21 (ArrayList<Integer> lista, Filter filt){
+        for (int i = 0; i < lista.size(); i++) {
+            int szam = lista.get(i);
+            if (filt.function(szam)) {
+                return i;
+            }
+            
+        }
+        return -1;
+    }
+    
+    static int helymegadasgy22 (ArrayList<String> lista, String name){
+        for (int i = 0; i < lista.size()-1; i++) {
+            if (lista.get(i).equals(name)) {
+                return i;
             }
         }
-        return a;
+        return -1;
     }
+    
+    static double maxpermingy23(ArrayList<Integer> lista, Comperegy23 filt){
+        int keresettErtek = lista.get(0);
+        for (int i = 0; i < lista.size(); i++) {
+            if (filt.function(lista.get(i), keresettErtek)) {
+                keresettErtek=lista.get(i);
+            }
+        }
+        return keresettErtek;
+    }
+    
+    static void fileRead4(ArrayList<Gepjarmu> gepjarmuvek, File f){
+        try {
+            Scanner scanner = new Scanner(f, "ISO-8859-2");
+            /*
+            System.out.println(scanner.hasNextLine());
+            System.out.println(scanner.nextLine());
+            System.out.println(scanner.nextLine());
+            */
+            while(scanner.hasNextLine()){
+                String sor = scanner.nextLine();
+                String[] adatok = sor.split(";");
+                //System.out.println(sor);
+                //System.out.println(adatok[0]);
+                Gepjarmu gj = new Gepjarmu(adatok[0],Integer.parseInt(adatok[1]),adatok[2]);
+                gepjarmuvek.add(gj);
+            }
+            
+            
+            
+            
+        } catch (FileNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    
+    
     
     
 }
